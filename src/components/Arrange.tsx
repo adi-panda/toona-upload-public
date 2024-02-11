@@ -8,6 +8,7 @@ import { useState } from "react";
 import { loadChapter } from "../utility/load_chapter";
 import { db } from "../utility/config";
 import { collection, getDocs } from "firebase/firestore";
+import { SignOutButton } from "@clerk/clerk-react";
 
 interface ArrangeItemProps {
   videos: string[];
@@ -144,6 +145,7 @@ const Arrange = ({
                 />
               </svg>
             </button>
+            <SignOutButton />
           </div>
           <div className="panel-list">
             {panels.map((panel, index) => (

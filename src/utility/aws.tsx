@@ -1,10 +1,11 @@
+const ec2Url = process.env.REACT_APP_EC2_URL;
+const cloudfrontUrl = process.env.REACT_APP_CLOUDFRONT_URL;
+
 export async function getURL(f: File | undefined) {
   if (f === undefined) return;
   console.log("f: ", f);
-
-  const { url } = await fetch("http://3.145.39.154:3000/s3Url").then((res) =>
-    res.json()
-  );
+  if (ec2Url === undefined) return;
+  const { url } = await fetch(ec2Url + "/s3Url").then((res) => res.json());
 
   console.log("url", url);
 
@@ -17,7 +18,7 @@ export async function getURL(f: File | undefined) {
       },
     });
     console.log("success: ", url.imageName);
-    const urlBase = "https://d1ugggz6h4f19m.cloudfront.net/";
+    const urlBase = cloudfrontUrl;
     return urlBase + url.imageName;
     // return urlBase + "testing123";
   } catch (e) {
@@ -28,7 +29,8 @@ export async function getURL(f: File | undefined) {
 
 export const uploadYoutube = async (url: string) => {
   try {
-    const response = await fetch("http://3.145.39.154:3000/ytUrl", {
+    if (ec2Url === undefined) return;
+    const response = await fetch(ec2Url + "/ytUrl", {
       method: "POST",
       headers: {
         "Content-Type": "application/json", // This header tells the server to expect JSON data

@@ -3,6 +3,13 @@ import "./App.css";
 import Load from "./components/Load";
 import Arrange from "./components/Arrange";
 import { useState, useEffect } from "react";
+import { SignIn, useUser } from "@clerk/clerk-react";
+import {
+  SignInButton,
+  SignOutButton,
+  SignedIn,
+  SignedOut,
+} from "@clerk/clerk-react";
 
 export interface HandleListFuctions {
   addPanel: (index: number) => void;
@@ -40,6 +47,7 @@ function App() {
     "next_slide",
     "slide",
   ]);
+  const { isSignedIn, user, isLoaded } = useUser();
 
   const [panels, setPanels] = useState<PanelObj[]>([
     { video: "", sound: "", tran: "" },
@@ -47,6 +55,7 @@ function App() {
 
   useEffect(() => {
     console.log("panels: ", panels);
+    console.log(process.env.REACT_APP_API_KEY);
   }, [panels]);
 
   const updatePanel = (
@@ -105,35 +114,41 @@ function App() {
 
   return (
     <div className="screen">
-      <Arrange
-        videos={videos}
-        videoFileNames={videoFileNames}
-        audioFileNames={audioFileNames}
-        setAudioFileNames={setAudioFileNames}
-        sounds={sounds}
-        setSounds={setSounds}
-        transitions={transitions}
-        panels={panels}
-        funcs={{
-          addPanel,
-          removePanel,
-          updatePanel,
-          resetPanels,
-          setPanels,
-          fillSounds,
-        }}
-      />
-      <Load
-        setVideos={setVideos}
-        setSounds={setSounds}
-        setVideoFileNames={setVideoFileNames}
-        setAudioFileNames={setAudioFileNames}
-        soundItems={sounds}
-        soundItemFileNames={audioFileNames}
-        videoItems={videos}
-        videoItemFileNames={videoFileNames}
-        setPanels={setPanels}
-      />
+      <SignedOut>
+        <SignIn />
+      </SignedOut>
+      <SignedIn>
+        <div>Hello {user?.id}!</div>
+        <Arrange
+          videos={videos}
+          videoFileNames={videoFileNames}
+          audioFileNames={audioFileNames}
+          setAudioFileNames={setAudioFileNames}
+          sounds={sounds}
+          setSounds={setSounds}
+          transitions={transitions}
+          panels={panels}
+          funcs={{
+            addPanel,
+            removePanel,
+            updatePanel,
+            resetPanels,
+            setPanels,
+            fillSounds,
+          }}
+        />
+        <Load
+          setVideos={setVideos}
+          setSounds={setSounds}
+          setVideoFileNames={setVideoFileNames}
+          setAudioFileNames={setAudioFileNames}
+          soundItems={sounds}
+          soundItemFileNames={audioFileNames}
+          videoItems={videos}
+          videoItemFileNames={videoFileNames}
+          setPanels={setPanels}
+        />
+      </SignedIn>
     </div>
   );
 }
