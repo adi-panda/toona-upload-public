@@ -1,0 +1,33 @@
+
+.loaded-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* height: 100%; */
+    margin-top: 5px;
+}
+
+.loaded-item {
+    /* background-color: white; */
+    /* margin: 4px; */
+    /* height: fit-content; */
+    /* padding: 2px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-width: 0;
+    height: 50px;
+    /* margin: 10px; */
+    text-align: center;
+    width: 70%;
+    /* margin: 10px; */
+}
+
+.remove-loaded-item {
+    height: 50px;
+    background-color: red;
+    border-width: 0;
+    color: white;
+}

@@ -1,0 +1,130 @@
+.upload-page-shown {
+  position: fixed;
+  width: 600px;
+  height: 700px;
+  background-color: white;
+  z-index: 10;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 5px;
+}
+
+.music-page-shown {
+  position: fixed;
+  width: 75%;
+  height: 50%;
+  background-color: white;
+  z-index: 10;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 5px;
+}
+
+.upload-page-hidden {
+  display: none;
+}
+
+.hide-page {
+  border-width: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.reset-form {
+  border-width: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.page-buttons {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.form {
+  padding: 10px;
+}
+
+.form label {
+  display: block;
+  /* margin-bottom: 4px; */
+}
+
+.update-record-text {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: small;
+  padding: 2px;
+  background-color: #efefef;
+}
+
+.musicContainer {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 0.75rem;
+  margin: 10px;
+  height: calc(100% - 60px);
+}
+
+.comic-list {
+  overflow-y: auto;
+  padding-top: 0.65rem;
+  gap: 0.5rem;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #efefef;
+}
+
+.comic-item-button-selected {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1rem;
+  background-color: #efefef;
+  border: none;
+}
+.comic-item-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1rem;
+  background: none;
+  border: none;
+}
+
+.comic-item-button:hover {
+  background-color: #efefef;
+}
+
+.music-list {
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+audio {
+  height: 2rem;
+  width: 100%;
+  margin-bottom: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.music-item-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.music-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #efefef;
+}

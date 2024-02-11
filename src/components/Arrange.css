@@ -1,0 +1,107 @@
+.area {
+  flex: 2;
+  width: 100%;
+  height: 500px;
+  padding: 10px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  /* overflow: hidden; */
+}
+
+.list-area {
+  margin: 10px;
+  height: auto;
+  background-color: grey;
+  width: 100%;
+  padding: 40px;
+  /* overflow: hidden; */
+}
+
+.tool-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 10px;
+  /* background-color: #a86060; */
+}
+
+.panel-list {
+  width: 100%;
+  /* height: 100%; */
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
+  padding-bottom: 10px;
+  /* margin-bottom: 10px; */
+  /* overflow: hidden; */
+}
+
+.panel-list::-webkit-scrollbar {
+  background-color: transparent; /* Make the track transparent */
+}
+
+.panel-list::-webkit-scrollbar-thumb {
+  background-color: white; /* Make the track transparent */
+  border-radius: 10px;
+}
+
+.done {
+  background-color: lightgreen;
+  border-width: 0;
+  width: 100px;
+  height: 2rem;
+  margin: 10px;
+}
+
+.music {
+  background-color: lightpink;
+  border-width: 0;
+  width: 2rem;
+  height: 2rem;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.25rem;
+}
+
+.done:hover {
+  background-color: #6faa6f;
+}
+
+.reset {
+  background-color: lightcoral;
+  border-width: 0;
+  width: 100px;
+  height: 2rem;
+  margin: 10px;
+}
+
+.reset:hover {
+  background-color: #a86060;
+}
+
+.text-input {
+  border-width: 0;
+  margin-left: 4px;
+}
+
+.load-button-cont {
+  background-color: lightskyblue;
+  margin: 10px;
+  /* padding-left: 3px; */
+  padding-right: 10px;
+}
+
+.load {
+  background-color: lightskyblue;
+  border-width: 0;
+  width: 100px;
+  height: 30px;
+}
+
+.load:hover {
+  background-color: #628fab;
+}
+

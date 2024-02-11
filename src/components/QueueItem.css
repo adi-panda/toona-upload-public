@@ -1,0 +1,26 @@
+.queue-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-width: 0;
+    height: 30px;
+    /* margin: 10px; */
+    text-align: center;
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+.remove-item {
+    background-color: red;
+    border-width: 0;
+    width: 20px;
+    height: 30px;
+
+}
+
+.item-cont {
+    display: flex;
+    flex-direction: row;
+
+}
