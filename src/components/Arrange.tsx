@@ -4,16 +4,18 @@ import ListItem from "./ListItem";
 import { PanelObj, HandleListFuctions } from "../App";
 import { UploadPage } from "./UploadPage";
 import { MusicPage } from "./MusicPage";
+import { UserPage } from "./UserPage";
 import { useState } from "react";
 import { loadChapter } from "../utility/load_chapter";
 import { db } from "../utility/config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs } from "firebase/firestore";
 import { SignOutButton } from "@clerk/clerk-react";
 
 interface ArrangeItemProps {
   videos: string[];
   videoFileNames: string[];
   audioFileNames: string[];
+  currentUserId: string;
   setAudioFileNames: (fileNames: string[]) => void;
   sounds: string[];
   setSounds: (sounds: string[]) => void;
@@ -22,8 +24,16 @@ interface ArrangeItemProps {
   funcs: HandleListFuctions;
 }
 
+interface ComicItem {
+  title: string;
+  imageSource: string;
+  description: string;
+  id: string;
+}
+
 const Arrange = ({
   videos,
+  currentUserId,
   videoFileNames,
   audioFileNames,
   setAudioFileNames,
@@ -35,7 +45,8 @@ const Arrange = ({
 }: ArrangeItemProps) => {
   const [done, setDone] = useState<boolean>(false);
   const [musicShown, setMusicShown] = useState<boolean>(false);
-  const [comicList, setComicList] = useState<string[]>([]);
+  const [usersShown, setUsersShown] = useState<boolean>(false);
+  const [comicList, setComicList] = useState<ComicItem[]>([]);
   const [chapterNumber, setchapterNumber] = useState("");
   const [comicName, setComicName] = useState("");
 
@@ -52,13 +63,19 @@ const Arrange = ({
     funcs.resetPanels();
   };
 
-  const loadComicNames = async () => {
-    const music = collection(db, "music");
-    let result: string[] = [];
-    await getDocs(music)
+  const loadUserSeries = async () => {
+    const comicRef = doc(db, "users", currentUserId); // Reference to the comic document
+    const chaptersCollectionRef = collection(comicRef, "chapters"); // Reference to the nested chapters collection
+    let result: ComicItem[] = [];
+    await await getDocs(chaptersCollectionRef)
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
-          result.push(doc.id);
+          result.push({
+            id: doc.id,
+            title: doc.data().title,
+            imageSource: doc.data().imageSource,
+            description: doc.data().description,
+          });
         });
       })
       .catch((error) => {
@@ -74,9 +91,10 @@ const Arrange = ({
     setDone(true);
   };
 
-  const handleLoad = () => {
+  const handleLoad = async () => {
     console.log("Load");
-    loadChapter(db, comicName, chapterNumber, funcs.setPanels);
+    setComicList(await loadUserSeries());
+    setUsersShown(true);
   };
 
   return (
@@ -87,14 +105,17 @@ const Arrange = ({
         panels={panels}
         sounds={sounds}
         audioFileNames={audioFileNames}
+        userID={currentUserId}
       />
-      <MusicPage
-        shown={musicShown}
+      <UserPage
+        shown={usersShown}
         setSounds={setSounds}
         sounds={sounds}
+        currentUserId={currentUserId}
+        setPanels={funcs.setPanels}
         setAudioFileNames={setAudioFileNames}
         audioFileNames={audioFileNames}
-        setShown={setMusicShown}
+        setShown={setUsersShown}
         comicList={comicList}
       />
       <div className="area">
@@ -102,22 +123,8 @@ const Arrange = ({
           <div className="tool-area">
             <div className="load-button-cont">
               <button className="load" onClick={handleLoad}>
-                Load DB
+                Load Chapter!
               </button>
-              <input
-                className="text-input"
-                type="text"
-                value={comicName}
-                onChange={handleComicChange}
-                placeholder="Comic DB-Name"
-              />
-              <input
-                className="text-input"
-                type="text"
-                value={chapterNumber}
-                onChange={handleChapterChange}
-                placeholder="Chapter Number"
-              />
             </div>
             <button className="reset" onClick={handleReset}>
               Reset
@@ -125,12 +132,12 @@ const Arrange = ({
             <button className="done" onClick={handleDone}>
               Done
             </button>
-            <button
+            {/* <button
               title="music"
               className="music"
               onClick={async () => {
                 setMusicShown(true);
-                setComicList(await loadComicNames());
+                setComicList(await loadUserSeries());
               }}
             >
               <svg
@@ -144,7 +151,7 @@ const Arrange = ({
                   d="M21 3v12.5a3.5 3.5 0 0 1-3.5 3.5a3.5 3.5 0 0 1-3.5-3.5a3.5 3.5 0 0 1 3.5-3.5c.54 0 1.05.12 1.5.34V6.47L9 8.6v8.9A3.5 3.5 0 0 1 5.5 21A3.5 3.5 0 0 1 2 17.5A3.5 3.5 0 0 1 5.5 14c.54 0 1.05.12 1.5.34V6z"
                 />
               </svg>
-            </button>
+            </button> */}
             <SignOutButton />
           </div>
           <div className="panel-list">

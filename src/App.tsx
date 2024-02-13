@@ -48,6 +48,7 @@ function App() {
     "slide",
   ]);
   const { isSignedIn, user, isLoaded } = useUser();
+  const user_id = user?.id;
 
   const [panels, setPanels] = useState<PanelObj[]>([
     { video: "", sound: "", tran: "" },
@@ -127,6 +128,7 @@ function App() {
           sounds={sounds}
           setSounds={setSounds}
           transitions={transitions}
+          currentUserId={user_id ? user_id : ""}
           panels={panels}
           funcs={{
             addPanel,

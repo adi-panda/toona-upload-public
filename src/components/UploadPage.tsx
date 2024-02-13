@@ -5,8 +5,7 @@ import { db } from "../utility/config";
 import {
   addComicToFirestore,
   makePasskey,
-  initComicRecord,
-  updateComicRecord,
+  // updateComicRecord,
   updateSoundsDB,
 } from "../utility/upload";
 import { useState, useEffect } from "react";
@@ -46,6 +45,7 @@ interface UploadPageProps {
   setShown: (shown: boolean) => void;
   sounds: string[];
   audioFileNames: string[];
+  userID: string;
 }
 
 export const UploadPage = ({
@@ -53,6 +53,7 @@ export const UploadPage = ({
   panels,
   setShown,
   sounds,
+  userID,
   audioFileNames,
 }: UploadPageProps) => {
   const [classView, setClassView] = useState<string>(
@@ -99,29 +100,16 @@ export const UploadPage = ({
     e.preventDefault();
     // Do something with the form data (e.g., send it to a server)
     console.log(formData);
-    const key = makePasskey(10);
-    updateSoundsDB(db, formData.dbTitle, sounds, audioFileNames);
-    if (!updateRecord) {
-      // initialize new comic document
-      initComicRecord(
-        db,
-        formData.dbTitle,
-        key,
-        formData.description,
-        formData.imageSource,
-        formData.title,
-        notify
-      );
-    } 
     addComicToFirestore(
       db,
+      userID,
       formData.dbTitle,
-      formData.chapter,
-      panels,
-      key,
-      updateRecord
+      formData.title,
+      formData.description,
+      formData.imageSource,
+      panels
     );
-    updateComicRecord(db, formData.dbTitle, formData.chapter);
+    // updateComicRecord(db, formData.dbTitle, formData.chapter);
   };
 
   const handleCheckBoxChange = (e: any) => {
@@ -148,7 +136,7 @@ export const UploadPage = ({
       </label>
       <br />
       <label>
-        Database Title:
+        Chapter ID:
         <input
           type="text"
           name="dbTitle"
@@ -184,7 +172,7 @@ export const UploadPage = ({
       </label>
       <br />
       <label>
-        Database Title:
+        Chapter ID:
         <input
           type="text"
           name="dbTitle"
